@@ -13,4 +13,6 @@ However, scheduling of a `Pod` is very expensive:
 * IP address assignments/limitation (think AWS) as each `Pod` needs to have a dedicated one
 
 ### Solution
-Reusing an existing, already scheduled `Pod` as long as possible (scale to zero use-case) by utilizing emphemeral container feature in Kubernetes. See kubernetes/enhancements#277 [KEP 277](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/277-ephemeral-containers) for design and implementatio details.
+Reusing an existing, already scheduled `Pod` as long as possible (scale to zero use-case) by utilizing emphemeral container feature in Kubernetes. See [kubernetes/enhancements#277] and [KEP 277](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/277-ephemeral-containers) for design and implementation details.
+
+[kubernetes/enhancements#277]: https://github.com/kubernetes/enhancements/issues/277
