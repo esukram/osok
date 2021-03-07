@@ -66,4 +66,4 @@ spec:
        mode: ISTIO_MUTUAL
      loadBalancer:
        consistentHash:
-         httpHeaderName: tenant-id
+         httpHeaderName: X-Tenant-ID

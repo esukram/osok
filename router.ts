@@ -11,7 +11,7 @@ const HOSTNAME = env.HOSTNAME || 'localhost'
 const options = { hostname: HOST, port: PORT };
 const COOL_DOWN = Number(env.COOL_DOWN) || 15;
 
-const HDR_TENANT = "tenant-id";
+const HDR_TENANT = "X-Tenant-ID";
 const HDR_X_FORWARED = "X-Forwarded-For";
 const MAX_RETRY = 10;
 const MAX_SCALE = env.MAX_SCALE || 0;
