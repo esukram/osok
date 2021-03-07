@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-x
+  namespace: app-x
+  labels:
+    app: app-x
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-x
+  template:
+    metadata:
+      labels:
+        app: app-x
+        version: v1
+    spec:
+      nodeSelector:
+        app-worker: "true"
+      volumes:
+      - name: app
+        configMap:
+          name: app
+      - name: app-cache
+        emptyDir:
+          sizeLimit: 100Mi
+      containers:
+      - name: router
+        image: hayd/alpine-deno:1.6.2
+        imagePullPolicy: IfNotPresent
+        args: [
+          "run", "--allow-env", "--allow-net", "--allow-read",
+          "--cert", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+          "/app/router.ts"
+        ]
+        env:
+        - name: MAX_SCALE
+          value: "10"
+        - name: COOL_DOWN
+          value: "30"
+        - name: DENO_DIR
+          value: "/app-cache"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+          - name: app
+            mountPath: /app
+          - name: app-cache
+            mountPath: /app-cache
+        ports:
+        - name: http-router
+          containerPort: 8000
+          protocol: TCP

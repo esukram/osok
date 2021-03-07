@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: app-x
+  name: app-x
+  namespace: app-x
+spec:
+  volumes:
+    - name: app
+      configMap:
+        name: app
+  containers:
+  - name: router
+    image: hayd/alpine-deno:1.6.2
+    imagePullPolicy: IfNotPresent
+    args: [
+      "run", "--allow-env", "--allow-net", "--allow-read",
+      "--cert", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+      "/app/router.ts"
+    ]
+    env:
+    - name: MAX_SCALE
+      value: "10"
+    volumeMounts:
+      - name: app
+        mountPath: /app
+    ports:
+    - name: router
+      containerPort: 8000
+      protocol: TCP
