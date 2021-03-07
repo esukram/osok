@@ -17,11 +17,11 @@ function delay(ms: number) {
 
 // ✔
 
-listenAndServe(options, (req: ServerRequest) => {
+listenAndServe(options, async (req: ServerRequest) => {
     // TODO: needs to be own port - obviously ;)
     if (req.url === '/shutdown') {
         req.respond({ status: Status.NoContent});
-        delay(100);
+        await delay(100);
 
         Deno.exit();
     }
